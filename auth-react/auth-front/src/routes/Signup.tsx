@@ -4,6 +4,7 @@ import DefaultLayout from "../layout/DefaultLayout";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthResponseError } from "../types/types";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const [name, setName] = useState("");
@@ -12,6 +13,8 @@ export default function Signup() {
     const [errorResponse, setErrorResponse] = useState("");
 
     const auth = useAuth();
+    const goTo = useNavigate();
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
 
@@ -31,6 +34,8 @@ export default function Signup() {
             if (response.ok){
                 console.log("El usuario se creo correctamente");
                 setErrorResponse ("");
+
+                goTo("/")
             }else{
                 console.log("Error, algo ocurrio")
                 const json = await response.json() as AuthResponseError;
